@@ -4,15 +4,18 @@ import os
 import mimetypes
 import cv2
 from .page import Page
+from builtins import range
 
 acceptable_mime = ["image/bmp", "image/png", "image/tiff", "image/jpeg", "image/jpg", "video/JPEG", "video/jpeg2000"]
+
 
 def main():
     """Entry point for the application script"""
     print("Call your main application code here")
 
 
-FileNotAcceptedException = Exception('The filetype is not acceptable. We accept bmp, png, tiff, jpg, jpeg, jpeg2000, and PDF.')
+FileNotAcceptedException = Exception(
+    'The filetype is not acceptable. We accept bmp, png, tiff, jpg, jpeg, jpeg2000, and PDF.')
 
 
 class Document:
@@ -22,6 +25,11 @@ class Document:
         self.page_content = []
         self.prepared = False
         self.error = None
+        self.filename = None
+        self.file_basename = None
+        self.path = None
+        self.mime_type = None
+        self.file_basepath = None
 
     def read(self, path):
         self.filename = os.path.basename(path)
@@ -36,7 +44,7 @@ class Document:
             pdf_reader = pyPdf.PdfFileReader(file_temp)
             self.num_pages = pdf_reader.numPages
             try:
-                for i in xrange(self.num_pages):
+                for i in range(self.num_pages):
                     output = pyPdf.PdfFileWriter()
                     output.addPage(pdf_reader.getPage(i))
                     path = 'temp.pdf'
@@ -74,7 +82,7 @@ class Document:
 
         # Otherwise, out of luck.
         else:
-            print self.mime_type[0]
+            print(self.mime_type[0])
             raise FileNotAcceptedException
 
     def process(self):

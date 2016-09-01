@@ -43,10 +43,10 @@ class Page:
             self.err = e
             self.healthy = False
 
-    def extract_text(self):
+    def extract_text(self, lang="eng"):
         temp_path = 'text_temp.png'
         cv2.imwrite(temp_path, self.image)
-        self.text = pytesseract.image_to_string(Image.open(temp_path))
+        self.text = pytesseract.image_to_string(Image.open(temp_path), lang=lang)
         os.remove(temp_path)
         return self.text
 
